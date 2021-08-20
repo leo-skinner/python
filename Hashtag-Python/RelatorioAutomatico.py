@@ -3,6 +3,7 @@ import pandas as pd
 import smtplib
 import ssl
 from email.mime.text import MIMEText
+from time import sleep
 
 # importar a base de dados
 planilha = 'Vendas.xlsx'
@@ -36,9 +37,11 @@ print(ticket_medio)
 # Configurar e-mail
 login = input('Digite seu login do google: ')
 senha = input('Digite sua senha do Google: ')
+remetente = input('Digite o seu email: ')
+destinatario = input('Digite o Destinatario: ')
 
-sender = 'leoskinner@gmail.com'
-receivers = ['leo_skinner@hotmail.com', 'leksinfo@gmail.com']
+sender = remetente
+receivers = destinatario
 body_of_email = f'''<p>Bom dia!</p>
 
 <p>Segue relatório automatizado pelo python.</p>
@@ -64,8 +67,14 @@ msg['To'] = ','.join(receivers)
 # Enviar e-mail com relatório
 try:
     s = smtplib.SMTP_SSL(host='smtp.gmail.com', port=465)
+    print('Conectando...')
+    sleep(5)
     s.login(user=login, password=senha)
+    print('inserindo login e senha')
+    sleep(5)
     s.sendmail(sender, receivers, msg.as_string())
+    print('enviando email...')
+    sleep(5)
     s.quit()
     print('email enviado!')
 except:
